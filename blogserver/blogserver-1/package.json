@@ -1,0 +1,15 @@
+{
+  "name": "blogserver",
+  "version": "1.0.0",
+  "description": "A Server for Blog",
+  "main": "bin/www.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hyang",
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "nodemon": "^2.0.4"
+  }
+}
