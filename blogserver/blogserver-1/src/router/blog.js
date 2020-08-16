@@ -21,32 +21,57 @@ const handleBlogRouter = (req, res) => {
     if (method === "GET" && path === '/api/blog/list') {
         const author = req.query.author || ''
         const keyword = req.query.keyword || ''
-        const listData = getList(author, keyword)
-        return new SuccessModel(listData, "blog list")
+        const result = getList(author, keyword);
+        return result.then(listData => {
+            return new SuccessModel(listData, "blog list")
+        })
     }
 
     //获取博客详情
     if (method === "GET" && path === '/api/blog/detail') {
-        const detailData = getDetail(id)
-        return new SuccessModel(detailData, 'blog Detail')
+        const result = getDetail(id)
+        return result.then(detailData => {
+            return new SuccessModel(detailData, "blog detail")
+        })
     }
 
     //新建博客
     if (method === "POST" && path === '/api/blog/add') {
-        const data = newBlog(req.body)
-        return new SuccessModel(data, 'new blog')
+        const author = 'zhangsan'
+        req.body.author = author
+        const result = newBlog(req.body)
+        return result.then(data => {
+            return new SuccessModel(data, 'new blog')
+        })
     }
 
     //编辑博客
     if (method === "POST" && path === '/api/blog/update') {
-        const data = updateBlog(id, req.body);
-        return new SuccessModel(data, 'update');
+        const result = updateBlog(id, req.body);
+        return result.then(data => {
+            if (data) {
+                return new SuccessModel({
+                    id
+                }, 'update');
+            } else {
+                return new ErrorModel('update fail')
+            }
+        })
     }
 
     //删除博客
     if (method === "POST" && path === '/api/blog/delete') {
-        const result = deleteBlog(id);
-        return result ? new SuccessModel() : new ErrorModel();
+        const author = 'zhangsan'
+        const result = deleteBlog(id, author);
+        return result.then(data => {
+            if (data) {
+                return new SuccessModel({
+                    id
+                }, 'delete');
+            } else {
+                return new ErrorModel('delete fail')
+            }
+        })
     }
 }
 

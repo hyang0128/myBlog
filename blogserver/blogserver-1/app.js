@@ -40,16 +40,24 @@ const serverHandle = (req, res) => {
     //解析postData
     getPostData(req).then(postData => {
         req.body = postData
-        
-        const blogdata = handleBlogRouter(req, res)
-        if (blogdata) {
-            res.end(JSON.stringify(blogdata))
+
+        const blogResult = handleBlogRouter(req, res)
+        if (blogResult) {
+            blogResult.then(blogdata => {
+                if (blogdata) {
+                    res.end(JSON.stringify(blogdata))
+                }
+            })
             return
         }
 
-        const userdata = handleUserRouter(req, res)
-        if (userdata) {
-            res.end(JSON.stringify(userdata))
+        const userResult = handleUserRouter(req, res)
+        if (userResult) {
+            userResult.then(userdata => {
+                if (userdata) {
+                    res.end(JSON.stringify(userdata))
+                }
+            })
             return
         }
 
