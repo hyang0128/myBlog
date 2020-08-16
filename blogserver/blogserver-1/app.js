@@ -8,7 +8,7 @@ const getPostData = (req) => {
             resolve({})
             return
         }
-        if (req.headers['Content-type'] !== 'applicaion/json') {
+        if (req.headers['content-type'] !== 'application/json') {
             resolve({})
             return
         }
