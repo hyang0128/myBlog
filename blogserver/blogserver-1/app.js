@@ -37,6 +37,19 @@ const serverHandle = (req, res) => {
     //解析query
     req.query = queryString.parse(url.split('?')[1])
 
+    //解析cookie
+    req.cookie = {};
+    const cookieStr = req.headers.cookie || '';
+    cookieStr.split(';').forEach(item => {
+        if (!item) {
+            return
+        }
+        let arr = item.split('='),
+            key = arr[0].trim(),
+            val = arr[1].trim();
+        req.cookie[key] = val;
+    })
+    console.log(req.cookie)
     //解析postData
     getPostData(req).then(postData => {
         req.body = postData
