@@ -9,12 +9,6 @@ const {
     ErrorModel
 } = require('../model/resModel')
 
-const getCookieExpires = () => {
-    const d = new Date()
-    d.setTime(d.getTime() + 24 * 60 * 60 * 1000);
-    console.log(d.toGMTString())
-    return d.toGMTString()
-}
 
 const handleUserRouter = (req, res) => {
     const method = req.method
@@ -29,7 +23,8 @@ const handleUserRouter = (req, res) => {
         const result = isLogin(username, password)
         return result.then(data => {
             if (data.username) {
-                res.setHeader('Set-Cookie', `username=${username}; path=/;httpOnly;expires=${getCookieExpires()}`);
+                req.session.username = data.username
+                req.session.realname = data.realname
                 return new SuccessModel('登录成功')
             }
             return new ErrorModel('登录失败')
